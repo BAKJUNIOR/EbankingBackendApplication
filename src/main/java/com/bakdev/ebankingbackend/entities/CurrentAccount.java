@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 // compte courant
 @Entity
-@DiscriminatorValue("CUR_A")
+@DiscriminatorValue("CA")
 @Data @AllArgsConstructor @NoArgsConstructor
 public class CurrentAccount extends BankAccount{
     private double overDraft;

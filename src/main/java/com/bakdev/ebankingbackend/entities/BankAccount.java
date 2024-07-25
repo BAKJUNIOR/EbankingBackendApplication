@@ -14,17 +14,19 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", length = 4)
 @Data @NoArgsConstructor @AllArgsConstructor
-public class BankAccount {
+public abstract class BankAccount {
     @Id
     private String id;
     private double balance;
     private Date createdAt;
+    private String description;
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     @ManyToOne
     private Customer customer; // un compte a partient a 1 client
 
-    @OneToMany(mappedBy = "bankAccount")
+    @OneToMany(mappedBy = "bankAccount" , fetch = FetchType.LAZY)
     private List<AccountOperation> accountOperations; // 1 compte a plusieurs operation
 
 
