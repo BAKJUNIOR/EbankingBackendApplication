@@ -1,7 +1,9 @@
 package com.bakdev.ebankingbackend.web;
 
+import com.bakdev.ebankingbackend.dtos.BankAccountDTO;
 import com.bakdev.ebankingbackend.dtos.CustomerDTO;
 import com.bakdev.ebankingbackend.entities.Customer;
+import com.bakdev.ebankingbackend.exceptions.BankAccountNotFoundException;
 import com.bakdev.ebankingbackend.exceptions.CustomerNotFoundException;
 import com.bakdev.ebankingbackend.services.BankAccountService;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,4 +45,16 @@ public class CustomerRestController {
     public  void deleteCustomer(@PathVariable Long id){
          bankAccountService.deleteCustomer(id);
     }
+
+    @GetMapping("/accounts")
+    public List<BankAccountDTO> listAccounts(){
+        return bankAccountService.bankAccountList();
+    }
+
+    @GetMapping("/account/{accountId}")
+    public BankAccountDTO getBankAccount(@PathVariable String accountId) throws BankAccountNotFoundException {
+        return bankAccountService.getBankAccount(accountId);
+
+    }
+
 }

@@ -17,11 +17,8 @@ public class AccountOperation {
     private Long id;
     private Date operationDate;
     private double amount;
-    private String description;
-
-
-    @Enumerated(EnumType.STRING)
     private OperationType operationType;
+    private String description;
 
     @ManyToOne
     private BankAccount bankAccount ; // une opération concerne un compte

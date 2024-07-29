@@ -1,6 +1,9 @@
 package com.bakdev.ebankingbackend;
 
+import com.bakdev.ebankingbackend.dtos.BankAccountDTO;
+import com.bakdev.ebankingbackend.dtos.CurrentBankAccountDTO;
 import com.bakdev.ebankingbackend.dtos.CustomerDTO;
+import com.bakdev.ebankingbackend.dtos.SavingBankAccountDTO;
 import com.bakdev.ebankingbackend.entities.*;
 import com.bakdev.ebankingbackend.exceptions.BalanceNotSufficientException;
 import com.bakdev.ebankingbackend.exceptions.BankAccountNotFoundException;
@@ -36,12 +39,23 @@ public class EbankingBackendApplication {
                     bankAccountService.saveCurrentBankAccount(Math.random() * 90000, 9000, customer.getId());
                     bankAccountService.saveSavingBankAccount(Math.random() * 120000, 5.5, customer.getId());
 
-                    List<BankAccount> bankAccounts = bankAccountService.bankAccountList();
+                    List<BankAccountDTO> bankAccounts = bankAccountService.bankAccountList();
 
-                    for (BankAccount bankAccount : bankAccounts) {
+                    for (BankAccountDTO bankAccount : bankAccounts) {
+
                         for (int i = 0; i < 10; i++) {
-                            bankAccountService.credit(bankAccount.getId(), 10000 + Math.random() * 120000, "Credit");
-                            bankAccountService.debit(bankAccount.getId(), 1000 + Math.random() * 9000, "Debit");
+
+                            String accountId;
+
+                            if (bankAccount instanceof SavingBankAccountDTO){
+                                accountId=((SavingBankAccountDTO) bankAccount).getId();
+                            }else {
+                                accountId=((CurrentBankAccountDTO) bankAccount).getId();
+
+                            }
+
+                            bankAccountService.credit(accountId, 10000 + Math.random() * 120000, "Credit");
+                            bankAccountService.debit(accountId, 1000 + Math.random() * 9000, "Debit");
                         }
                     }
                 } catch (CustomerNotFoundException | BankAccountNotFoundException | BalanceNotSufficientException e) {
