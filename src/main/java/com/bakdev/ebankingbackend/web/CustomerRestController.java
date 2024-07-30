@@ -1,12 +1,12 @@
 package com.bakdev.ebankingbackend.web;
 
+import com.bakdev.ebankingbackend.dtos.AccountHistoryDTO;
+import com.bakdev.ebankingbackend.dtos.AccountOperationDTO;
 import com.bakdev.ebankingbackend.dtos.BankAccountDTO;
 import com.bakdev.ebankingbackend.dtos.CustomerDTO;
-import com.bakdev.ebankingbackend.entities.Customer;
 import com.bakdev.ebankingbackend.exceptions.BankAccountNotFoundException;
 import com.bakdev.ebankingbackend.exceptions.CustomerNotFoundException;
 import com.bakdev.ebankingbackend.services.BankAccountService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +56,18 @@ public class CustomerRestController {
         return bankAccountService.getBankAccount(accountId);
 
     }
+
+    @GetMapping("/accounts/{accountId}/operations")
+    public List<AccountOperationDTO> getHistory(@PathVariable String accountId){
+        return bankAccountService.accountHistory(accountId);
+    }
+    @GetMapping("/accounts/{accountId}/pageOperations")
+    public AccountHistoryDTO getAccountHistory (
+            @PathVariable String accountId,
+            @RequestParam(name = "page" , defaultValue = "0") int page ,
+            @RequestParam(name = "size" , defaultValue = "5")int size) throws BankAccountNotFoundException {
+        return bankAccountService.getAccountHistory(accountId,page,size);
+    }
+
 
 }

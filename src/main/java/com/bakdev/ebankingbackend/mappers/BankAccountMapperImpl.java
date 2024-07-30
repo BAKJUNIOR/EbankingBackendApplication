@@ -1,8 +1,10 @@
 package com.bakdev.ebankingbackend.mappers;
 
+import com.bakdev.ebankingbackend.dtos.AccountOperationDTO;
 import com.bakdev.ebankingbackend.dtos.CurrentBankAccountDTO;
 import com.bakdev.ebankingbackend.dtos.CustomerDTO;
 import com.bakdev.ebankingbackend.dtos.SavingBankAccountDTO;
+import com.bakdev.ebankingbackend.entities.AccountOperation;
 import com.bakdev.ebankingbackend.entities.CurrentAccount;
 import com.bakdev.ebankingbackend.entities.Customer;
 import com.bakdev.ebankingbackend.entities.SavingAccount;
@@ -53,6 +55,11 @@ public class BankAccountMapperImpl {
         return currentAccount;
     }
 
+    public AccountOperationDTO fromAccountOperation(AccountOperation accountOperation){
+        AccountOperationDTO accountOperationDTO = new AccountOperationDTO();
+        BeanUtils.copyProperties(accountOperation , accountOperationDTO);
+        return accountOperationDTO;
+    }
 
 
 }
